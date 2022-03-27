@@ -1,4 +1,7 @@
 import models.BinaryProblem;
+
+import models.FutoshikiPossibility;
+import models.FutoshikiProblem;
 import models.Possibility;
 import services.DataLoader;
 
@@ -11,7 +14,11 @@ public class ProblemSolver {
 //        BinaryProblem bp = new BinaryProblem(DataLoader.loadBinaryData("src/main/resources/binary_6x6"), new int[]{1, 2});
 //        List<Possibility> results = bp.generateResults();
 //        results.forEach(System.out::println);
-        DataLoader.loadFutoshikiData("src/main/resources/futoshiki_4x4");
+//
+        FutoshikiProblem fp = new FutoshikiProblem(DataLoader.loadFutoshikiData("src/main/resources/futoshiki_4x4"), new int []{1,2,3,4});
+        List<FutoshikiPossibility> results = fp.generateResults();
+        results.forEach(System.out::println);
+
 
     }
 }
