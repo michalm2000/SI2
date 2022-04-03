@@ -12,14 +12,14 @@ public class BinaryProblem {
         this.binaryArray = binaryArray;
         this.domain = domain;
     }
-    public List<Possibility> generateResults() {
-        List<Possibility> possibilitiesToCheck = new LinkedList<>();
-        List<Possibility> results = new ArrayList<>();
+    public List<BinaryPossibility> generateResults() {
+        List<BinaryPossibility> possibilitiesToCheck = new LinkedList<>();
+        List<BinaryPossibility> results = new ArrayList<>();
         int[] copyArray = binaryArray.clone();
-        Possibility pos = new Possibility(copyArray);
+        BinaryPossibility pos = new BinaryPossibility(copyArray);
         possibilitiesToCheck.add(pos);
         while (!possibilitiesToCheck.isEmpty()){
-            Possibility p = possibilitiesToCheck.get(0);
+            BinaryPossibility p = possibilitiesToCheck.get(0);
             if(p.isComplete()){
                 results.add(p);
             }

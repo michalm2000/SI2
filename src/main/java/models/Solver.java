@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Solver {
     boolean isComplete();
-    List<? extends Solver> spawnResults();
+    List<Solver> spawnResults();
     @Override
     String toString();
 

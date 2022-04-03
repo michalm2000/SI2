@@ -3,23 +3,22 @@ package models;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Possibility {
+public class BinaryPossibility {
     private int[] numberArray;
     private int dim;
     private boolean valid;
     private boolean complete;
 
-    public Possibility(int[] numberArray) {
+    public BinaryPossibility(int[] numberArray) {
         this.numberArray = numberArray;
         dim = (int) Math.sqrt(numberArray.length);
         complete = ArrayUtils.indexOf(numberArray, -1) == -1;
         valid = true;
     }
 
-    public Possibility(int[] numArray, int changedIndex){
+    public BinaryPossibility(int[] numArray, int changedIndex){
         this.numberArray = numArray;
         dim = (int) Math.sqrt(numberArray.length);
         complete = ArrayUtils.indexOf(numberArray, -1) == -1;
@@ -81,19 +80,18 @@ public class Possibility {
 
 
     public boolean isComplete() {
-        System.out.println(this + " " + Arrays.toString(numberArray));
         return complete;
     }
 
-    public List<Possibility> spawnChildren(){
+    public List<BinaryPossibility> spawnChildren(){
         int[] copyArray0 = numberArray.clone();
         int[] copyArray1 = numberArray.clone();
         int changedIndex = ArrayUtils.indexOf(copyArray0, -1);
         copyArray0[changedIndex] = 0;
         copyArray1[changedIndex] = 1;
-        Possibility pos1 = new Possibility(copyArray0, changedIndex);
-        Possibility pos2 = new Possibility(copyArray1, changedIndex);
-        ArrayList<Possibility> result = new ArrayList<>();
+        BinaryPossibility pos1 = new BinaryPossibility(copyArray0, changedIndex);
+        BinaryPossibility pos2 = new BinaryPossibility(copyArray1, changedIndex);
+        ArrayList<BinaryPossibility> result = new ArrayList<>();
 
         if(pos1.valid) result.add(pos1);
         if(pos2.valid) result.add(pos2);

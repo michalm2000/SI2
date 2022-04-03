@@ -1,7 +1,6 @@
 package models;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.javatuples.Pair;
 
 import java.util.ArrayList;
@@ -102,6 +101,8 @@ public class FutoshikiPossibility {
                     }
                     else {
                         char sign = constraintsMap.getOrDefault(Pair.with(i/2*dim + j/2, (i/2+1)*dim + j/2), ' ');
+                        if (sign == '>') sign = 'v';
+                        if (sign == '<') sign = '^';
                         stringBuilder.append(sign);
                     }
                     stringBuilder.append(' ');
