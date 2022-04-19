@@ -42,8 +42,7 @@ public class FutoshikiPossibility implements Possibility {
         this.constraintsMap = constraintsMap;
         dim = (int) Math.sqrt(numberArray.length);
         complete = ArrayUtils.indexOf(numberArray, -1) == -1;
-        valid = checkRow(numberArray, changedIndex / dim) && checkColumn(numberArray, changedIndex % dim) && checkConstraints();
-        System.out.println(valid);
+        valid = checkRow(numberArray, changedIndex / dim) && checkColumn(numberArray, changedIndex % dim) && checkConstraints(numberArray);
         this.domainMap = domainMap;
         this.forwardChecking = forwardChecking;
     }
@@ -67,9 +66,10 @@ public class FutoshikiPossibility implements Possibility {
 
     }
 
-    public boolean checkConstraints() {
+    public boolean checkConstraints(int[] arr) {
         for (var key : constraintsMap.keySet()) {
-            if (!checkConstraint(numberArray[key.getValue0()], numberArray[key.getValue1()], constraintsMap.get(key)))
+            if(constraintsMap.get(key) == null) System.out.println("dupa");
+            if (!checkConstraint(arr[key.getValue0()], arr[key.getValue1()], constraintsMap.get(key)))
                 return false;
         }
         return true;
@@ -91,16 +91,18 @@ public class FutoshikiPossibility implements Possibility {
             int[] copyArray = numberArray.clone();
             copyArray[changedIndex] = number;
             FutoshikiPossibility pos;
-            if (forwardChecking) {
-                pos = new FutoshikiPossibility(copyArray, changedIndex, constraintsMap, domainMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ArrayList<>(e.getValue()))), true);
-//                DomainUtils.updateDomainRow(pos, changedIndex);
-//                DomainUtils.updateDomainColumn(pos, changedIndex);
-//                DomainUtils.updateDomainConstraints(pos);
+            if(checkRow(copyArray, changedIndex / dim) && checkColumn(copyArray, changedIndex % dim) && checkConstraints(copyArray)) {
+                if (forwardChecking) {
+                    pos = new FutoshikiPossibility(copyArray, changedIndex, constraintsMap, domainMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ArrayList<>(e.getValue()))), true);
+                DomainUtils.updateDomainRow(pos, changedIndex);
+                DomainUtils.updateDomainColumn(pos, changedIndex);
+                //DomainUtils.updateDomainConstraints(pos);
+
+                } else {
+                    pos = new FutoshikiPossibility(copyArray, changedIndex, constraintsMap, domainMap, false);
+                }
+                results.add(pos);
             }
-            else {
-                pos = new FutoshikiPossibility(copyArray, changedIndex, constraintsMap, domainMap, false);
-            }
-            if (pos.valid) results.add(pos);
         }
         return Pair.with(results, domainMap.get((changedIndex)).size());
 

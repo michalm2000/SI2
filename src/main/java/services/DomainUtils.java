@@ -53,6 +53,22 @@ public class DomainUtils {
 
     }
 
+    public static void updateVariableDomain(Possibility possibility, int index){
+        int dim = possibility.getDim();
+        int[] numberArray = possibility.getNumberArray().clone();
+        var domain = possibility.getDomainMap().get(index);
+        ArrayList<Integer> invalidDomainValues = new ArrayList<>();
+        for(int i = 0; i < domain.size(); i++){
+            numberArray[index] = domain.get(i);
+            if(!possibility.checkColumn(numberArray, index%dim) || !possibility.checkRow(numberArray,index/dim) || !possibility.checkConstraints(numberArray)){
+                invalidDomainValues.add(domain.get(i));
+            }
+        }
+        domain.removeAll(invalidDomainValues);
+
+
+    }
+
     public static void updateDomainConstraints(Possibility possibility){
         var constraintsMap = possibility.getConstraintsMap();
         if (constraintsMap == null) return;
@@ -66,7 +82,7 @@ public class DomainUtils {
                 int[] copyArray = numberArray.clone();
                 for (int j = 0; j < currentDomain.size(); j++){
                     copyArray[i] = currentDomain.get(j);
-                    if(!possibility.checkConstraints()){
+                    if(!possibility.checkConstraints(possibility.getNumberArray())){
                         invalidDomainValues.add(currentDomain.get(j));
                     }
                 }
@@ -95,8 +111,7 @@ public class DomainUtils {
         if (possibility.isForwardChecking()) {
             for (int i = 0; i < numberArray.length; i++) {
                 if (emptyIndexes.get(i)) {
-                    DomainUtils.updateDomainRow(possibility, i);
-                    DomainUtils.updateDomainColumn(possibility, i);
+                    updateVariableDomain(possibility, i);
                 }
             }
         }

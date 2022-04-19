@@ -10,7 +10,7 @@ import java.util.Map;
 public interface Possibility {
     boolean checkColumn(int[]arr, int column);
     boolean checkRow(int[] arr, int column);
-    boolean checkConstraints();
+    boolean checkConstraints(int[] arr);
 
     boolean isComplete();
     Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice);

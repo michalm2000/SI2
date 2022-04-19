@@ -26,7 +26,7 @@ public class Problem {
         List<Possibility> results = new ArrayList<>();
         possibilitiesToCheck.add(startingPossibility);
         while (!possibilitiesToCheck.isEmpty()){
-            Possibility p = possibilitiesToCheck.get(0);
+           Possibility p = possibilitiesToCheck.get(0);
             if(p.isComplete()){
                 results.add(p);
             }
@@ -41,6 +41,24 @@ public class Problem {
         return results;
     }
 
-
+    public Possibility generateResult (){
+        int counter = 0;
+        List<Possibility> possibilitiesToCheck = new LinkedList<>();
+        possibilitiesToCheck.add(startingPossibility);
+        while (!possibilitiesToCheck.isEmpty()){
+            Possibility p = possibilitiesToCheck.get(0);
+            if(p.isComplete()){
+                return p;
+            }
+            else {
+                var res = p.spawnChildren(variableChoice);
+                possibilitiesToCheck.addAll(0,res.getValue0());
+                counter+=res.getValue1();
+            }
+            possibilitiesToCheck.remove(0);
+        }
+        System.out.println(counter);
+        return null;
+    }
 
 }

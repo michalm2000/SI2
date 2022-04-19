@@ -26,6 +26,7 @@ public class BinaryPossibility implements Possibility {
         valid = true;
         this.forwardChecking = forwardChecking;
         this.domainMap = DomainUtils.createDomainMap(this);
+        if(forwardChecking) DomainUtils.updateMapForwardChecking(this);
     }
 
     public BinaryPossibility(int[] numArray, int changedIndex, Map<Integer, List<Integer>> domainMap, boolean forwardChecking){
@@ -65,7 +66,7 @@ public class BinaryPossibility implements Possibility {
     }
 
     @Override
-    public boolean checkConstraints() {
+    public boolean checkConstraints(int[] arr) {
         return true;
     }
 
