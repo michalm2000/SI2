@@ -42,8 +42,7 @@ public class DataLoader {
                 }
             }
         }
-        System.out.println(Arrays.toString(numberArray));
-        System.out.println(constraintsMap);
-        return new Pair<>(Arrays.stream(numberArray).map(c -> c == 33 ? -1: c).toArray(), constraintsMap);
+        numberArray = Arrays.stream(numberArray).map(c -> c == 33 ? -1 : c).toArray();
+        return new Pair<>(numberArray, constraintsMap);
     }
 }
