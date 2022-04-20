@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.javatuples.Pair;
 import services.DomainUtils;
+import valuechoice.ValueChoice;
 import variablechoice.VariableChoice;
 
 import java.util.*;
@@ -104,9 +105,10 @@ public class BinaryPossibility implements Possibility {
         return complete;
     }
 
-    public Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice){
+    public Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice, ValueChoice valueChoice){
         int changedIndex = variableChoice.chooseVariable(this);
         ArrayList<Possibility> result = new ArrayList<>();
+        valueChoice.sortDomain(this, changedIndex);
         for (int number: domainMap.get(changedIndex)) {
             int[] copyArray = numberArray.clone();
             copyArray[changedIndex] = number;
@@ -121,6 +123,7 @@ public class BinaryPossibility implements Possibility {
                 pos = new BinaryPossibility(copyArray, changedIndex, domainMap, false);
             }
             if (pos.valid) result.add(pos);
+            else Problem.backtrackCount++;
         }
         return Pair.with(result, domainMap.get(changedIndex).size());
     }

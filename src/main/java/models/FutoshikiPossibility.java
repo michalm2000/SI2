@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.javatuples.Pair;
 import services.DomainUtils;
+import valuechoice.ValueChoice;
 import variablechoice.VariableChoice;
 
 import java.util.ArrayList;
@@ -84,9 +85,10 @@ public class FutoshikiPossibility implements Possibility {
         }
     }
 
-    public Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice) {
+    public Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice, ValueChoice valueChoice) {
         int changedIndex = variableChoice.chooseVariable(this);
         ArrayList<Possibility> results = new ArrayList<>();
+        valueChoice.sortDomain(this, changedIndex);
         for (int number: domainMap.get(changedIndex)) {
             int[] copyArray = numberArray.clone();
             copyArray[changedIndex] = number;
@@ -96,13 +98,14 @@ public class FutoshikiPossibility implements Possibility {
                     pos = new FutoshikiPossibility(copyArray, changedIndex, constraintsMap, domainMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ArrayList<>(e.getValue()))), true);
                 DomainUtils.updateDomainRow(pos, changedIndex);
                 DomainUtils.updateDomainColumn(pos, changedIndex);
-                //DomainUtils.updateDomainConstraints(pos);
+                DomainUtils.updateDomainConstraints(pos);
 
                 } else {
                     pos = new FutoshikiPossibility(copyArray, changedIndex, constraintsMap, domainMap, false);
                 }
                 results.add(pos);
             }
+            else Problem.backtrackCount++;
         }
         return Pair.with(results, domainMap.get((changedIndex)).size());
 

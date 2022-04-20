@@ -1,6 +1,7 @@
 package models;
 
 import org.javatuples.Pair;
+import valuechoice.ValueChoice;
 import variablechoice.VariableChoice;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public interface Possibility {
     boolean checkConstraints(int[] arr);
 
     boolean isComplete();
-    Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice);
+    Pair<ArrayList<Possibility>, Integer> spawnChildren(VariableChoice variableChoice, ValueChoice valueChoice);
 
     @Override
     String toString();
